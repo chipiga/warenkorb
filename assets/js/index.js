@@ -3,7 +3,7 @@
 const init = () => {
     dom.mapping();
     dom.appendEventListeners();
-    ajax.loadJSON('./data/products.json', render.catalog);
+    catalogData.load('./data/products.json');
 }
 
 init();
