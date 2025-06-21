@@ -1,7 +1,6 @@
 'use strict';
 
 const dom = {
-    // TODO: REDO
     create(content = false, type = 'div', parent = false, className = false) {
         const el = document.createElement(type);
         if (content) el.innerHTML = content;
@@ -11,13 +10,32 @@ const dom = {
         return el;
     },
     mapping(){
-        elements.catalog = document.querySelector('#catalog');
-        elements.search = document.querySelector('#search');
+        elements.catalogLayout = document.querySelector('#catalog-layout');
+        elements.catalogData = document.querySelector('#catalog-data');
+        elements.catalogSearch = document.querySelector('#catalog-search');
+        elements.cartLayout = document.querySelector('#cart-layout');
+        elements.cartData = document.querySelector('#cart-data');
+        elements.cartOpen = document.querySelector('#cart-open');
+        elements.cartClose = document.querySelector('#cart-close');
+        elements.cartSummary = document.querySelector('#cart-summary');
     },
     appendEventListeners() {
-        elements.search.addEventListener('input', (e) => {
+        elements.catalogSearch.addEventListener('input', (e) => {
             const filteredData = catalogData.search(e.target.value);
             render.catalog(filteredData);
         });
+        elements.cartOpen.addEventListener('click', (e) => {
+            e.preventDefault();
+            elements.catalogLayout.classList.toggle('hidden');
+            elements.cartLayout.classList.toggle('hidden');
+            render.cart();
+            render.summary();
+        });
+        elements.cartClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            elements.catalogLayout.classList.toggle('hidden');
+            elements.cartLayout.classList.toggle('hidden');
+        });
+
     }
 }

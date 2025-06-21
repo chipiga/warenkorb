@@ -1,5 +1,6 @@
 'use strict';
 
+// TODO: redo?
 const catalogIndex = (parent, products) => {
     for (const product of products) {
         const wrapper = document.createElement('div');
@@ -47,8 +48,12 @@ const catalogIndex = (parent, products) => {
         divTag.append(pTag);
 
         let button = document.createElement('button');
-        button.className = 'inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4  focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800';
+        button.className = 'inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4  focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-pointer';
         button.innerHTML = 'Add to cart';
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            cartData.add(product.id);
+        });
         divTag.append(button);
 
         parent.append(wrapper);
