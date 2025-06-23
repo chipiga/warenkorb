@@ -18,6 +18,7 @@ const dom = {
         elements.cartOpen = document.querySelector('#cart-open');
         elements.cartClose = document.querySelector('#cart-close');
         elements.cartSummary = document.querySelector('#cart-summary');
+        elements.loginLayout = document.querySelector('#login-layout');
     },
     appendEventListeners() {
         elements.catalogSearch.addEventListener('input', (e) => {
@@ -36,6 +37,19 @@ const dom = {
             elements.catalogLayout.classList.toggle('hidden');
             elements.cartLayout.classList.toggle('hidden');
         });
-
+        document.querySelectorAll('[data-login="true"]').forEach((el) => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                elements.catalogLayout.classList.add('hidden');
+                elements.cartLayout.classList.add('hidden');
+                elements.loginLayout.classList.remove('hidden');
+            });
+        });
+        document.querySelectorAll('[data-alert]').forEach((el) => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert(e.target.dataset.alert);
+            });
+        });
     }
 }

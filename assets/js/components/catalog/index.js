@@ -41,7 +41,7 @@ const catalogIndex = (parent, products) => {
 
         pTag = document.createElement('p');
         pTag.className = 'text-2xl font-extrabold leading-tight text-gray-900 dark:text-white';
-        pTag.innerHTML = product.price.toLocaleString('de-DE', {
+        pTag.innerHTML = product.price.toLocaleString('de-DE', { // TODO helper function
             style: 'currency',
             currency: 'EUR'
         });
@@ -53,6 +53,7 @@ const catalogIndex = (parent, products) => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
             cartData.add(product.id);
+            alert(`Product "${product.name}" added to cart!`);
         });
         divTag.append(button);
 
