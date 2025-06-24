@@ -11,7 +11,7 @@ const catalogData = {
         });
     },
     load(url) {
-        ajax.loadJSON(url, this.save.bind(this));
+        utils.loadJSON(url, this.save.bind(this));
     },
     save(payload) {
         this.data = payload;

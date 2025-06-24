@@ -1,5 +1,9 @@
 'use strict';
 
+const elements = {
+    
+}
+
 const dom = {
     create(content = false, type = 'div', parent = false, className = false) {
         const el = document.createElement(type);

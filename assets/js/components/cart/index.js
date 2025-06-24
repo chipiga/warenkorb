@@ -32,7 +32,7 @@ const cartIndex = (parent) => {
                         </button>
                     </div>
                     <div class="text-end md:order-4 md:w-32">
-                        <p class="text-base font-bold text-gray-900 dark:text-white">${product.price.toLocaleString('de-DE', {style: 'currency',currency: 'EUR'})}</p>
+                        <p class="text-base font-bold text-gray-900 dark:text-white">${utils.numberCurrency(product.price)}</p>
                     </div>
                 </div>
 

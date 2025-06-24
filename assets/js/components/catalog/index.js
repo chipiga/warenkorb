@@ -41,10 +41,7 @@ const catalogIndex = (parent, products) => {
 
         pTag = document.createElement('p');
         pTag.className = 'text-2xl font-extrabold leading-tight text-gray-900 dark:text-white';
-        pTag.innerHTML = product.price.toLocaleString('de-DE', { // TODO helper function
-            style: 'currency',
-            currency: 'EUR'
-        });
+        pTag.innerHTML = utils.numberCurrency(product.price);
         divTag.append(pTag);
 
         let button = document.createElement('button');

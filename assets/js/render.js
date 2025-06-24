@@ -12,6 +12,5 @@ const render = {
     summary() {
         elements.cartSummary.innerHTML = '';
         cartSummary(elements.cartSummary);
-    }
-
+    },
 }

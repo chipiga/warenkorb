@@ -16,10 +16,10 @@ const cartSummary = (parent) => {
         summary.tax = summary.cost * 0.19; // 19% Steuern
         summary.total = summary.cost + summary.delivery + summary.tax;
     });
-    summary.cost = summary.cost.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
-    summary.delivery = summary.delivery.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
-    summary.tax = summary.tax.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
-    summary.total = summary.total.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
+    summary.cost = utils.numberCurrency(summary.cost);
+    summary.delivery = utils.numberCurrency(summary.delivery);
+    summary.tax = utils.numberCurrency(summary.tax);
+    summary.total = utils.numberCurrency(summary.total);
 
     dom.create(`
         <div class="space-y-2">

@@ -14,7 +14,7 @@ const authLogin = {
 
         const url = remember ? './data/login-ok.json' : './data/login-error.json'; 
         // Simulate an AJAX request to login
-        ajax.loadJSON(url, (payload) => {
+        utils.loadJSON(url, (payload) => {
             if (payload.id) {
                 // authData.login(email, password);
                 // authData.current_user = payload.user; // Simulate successful login
