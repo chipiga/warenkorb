@@ -25,5 +25,14 @@ const utils = {
         //     minimumFractionDigits: 2,
         //     maximumFractionDigits: 2
         // }).format(value);
-    }
+    },
+    createDOM(content = false, type = 'div', parent = false, className = false) {
+        const el = document.createElement(type);
+        if (content) el.innerHTML = content;
+        if (className) el.className = className;
+        if (parent) parent.append(el);
+
+        return el;
+    },
+
 }

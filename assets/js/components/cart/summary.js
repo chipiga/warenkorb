@@ -21,7 +21,7 @@ const cartSummary = (parent) => {
     summary.tax = utils.numberCurrency(summary.tax);
     summary.total = utils.numberCurrency(summary.total);
 
-    dom.create(`
+    utils.createDOM(`
         <div class="space-y-2">
             <dl class="flex items-center justify-between gap-4">
                 <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Cost</dt>

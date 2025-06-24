@@ -4,7 +4,7 @@ const cartIndex = (parent) => {
     cartData.data.forEach(item => {
         const product = catalogData.data.find(product => product.id === item.id);
         if (!product) return; // Produkt nicht gefunden, überspringen
-        const el = dom.create(`
+        const el = utils.createDOM(`
             <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                 <a href="#" class="shrink-0 md:order-1">
                     <img class="h-20 w-20" src="${product.image}" alt="${product.name}" />
