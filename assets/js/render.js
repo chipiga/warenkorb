@@ -3,7 +3,7 @@
 const render = {
     catalog(payload) {
         elements.catalogData.innerHTML = '';
-        catalogIndex(elements.catalogData, payload);
+        catalogIndex.render(elements.catalogData, payload);
     },
     cart() {
         elements.cartData.innerHTML = '';
