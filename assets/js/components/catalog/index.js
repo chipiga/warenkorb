@@ -1,7 +1,44 @@
 'use strict';
 
 const catalogIndex = {
-    render(parent, products) {
+    init(parent){
+        // utils.createDOM(`
+        //     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        //         <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
+        //             <div>
+        //                 <div class="relative">
+        //                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+        //                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+        //                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+        //                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+        //                                 stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+        //                         </svg>
+        //                     </div>
+        //                     <input type="search" id="catalog-search"
+        //                         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        //                         placeholder="Search..." required />
+        //                 </div>
+        //             </div>
+        //             <div class="flex items-center space-x-4 cursor-pointer" id="cart-open">
+        //                 <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true"
+        //                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        //                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        //                         d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
+        //                 </svg>
+        //             </div>
+        //         </div>
+        //         <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4" id="catalog-data">
+        //             No data
+        //         </div>
+        //     </div>
+        // `, 'section', parent, 'bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12');
+        document.getElementById('catalog-search').addEventListener('input', (e) => {
+            const filteredData = catalogData.search(e.target.value);
+            // catalogIndex.renderProducts(document.getElementById('catalog-data'), filteredData);
+            render.catalog(filteredData);
+        });
+    },
+    renderProducts(parent, products) {
         for (const product of products) {
             const el = utils.createDOM(`
                 <div data-product-id="${product.id}" class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800>">

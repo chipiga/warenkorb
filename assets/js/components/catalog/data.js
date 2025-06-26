@@ -2,20 +2,20 @@
 
 const catalogData = {
     data: [],
-    search(query) {        
-        if (!query) return this.data;
-        query = query.toLowerCase();
-        return this.data.filter(item => {
-            return item.name.toLowerCase().includes(query) ||
-                   item.description.toLowerCase().includes(query);
-        });
-    },
     load(url) {
         utils.loadJSON(url, this.save.bind(this));
     },
     save(payload) {
         this.data = payload;
         render.catalog(payload); // TODO callback?
+    },
+    search(query) {
+        if (!query) return this.data;
+        query = query.toLowerCase();
+        return this.data.filter(item => {
+            return item.name.toLowerCase().includes(query) ||
+                   item.description.toLowerCase().includes(query);
+        });
     },
     findById(productId) {
         return this.data.find(item => item.id === productId);

@@ -6,9 +6,9 @@ const elements = {
 
 const dom = {
     mapping(){
+        elements.main = document.querySelector('main');
         elements.catalogLayout = document.querySelector('#catalog-layout');
         elements.catalogData = document.querySelector('#catalog-data');
-        elements.catalogSearch = document.querySelector('#catalog-search');
         elements.cartLayout = document.querySelector('#cart-layout');
         elements.cartData = document.querySelector('#cart-data');
         elements.cartOpen = document.querySelector('#cart-open');
@@ -17,10 +17,6 @@ const dom = {
         elements.loginLayout = document.querySelector('#login-layout');
     },
     appendEventListeners() {
-        elements.catalogSearch.addEventListener('input', (e) => {
-            const filteredData = catalogData.search(e.target.value);
-            render.catalog(filteredData);
-        });
         elements.cartOpen.addEventListener('click', (e) => {
             e.preventDefault();
             elements.catalogLayout.classList.toggle('hidden');

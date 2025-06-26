@@ -3,14 +3,14 @@
 const render = {
     catalog(payload) {
         elements.catalogData.innerHTML = '';
-        catalogIndex.render(elements.catalogData, payload);
+        catalogIndex.renderProducts(elements.catalogData, payload);
     },
     cart() {
         elements.cartData.innerHTML = '';
-        cartIndex(elements.cartData);
+        cartIndex.render(elements.cartData);
     },
     summary() {
         elements.cartSummary.innerHTML = '';
-        cartSummary(elements.cartSummary);
+        cartSummary.render(elements.cartSummary);
     },
 }

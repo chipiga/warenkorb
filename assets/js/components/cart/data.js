@@ -3,7 +3,6 @@
 const cartData = {
     data: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [], // {id, quantity}
     add(id) {
-        // id = parseInt(id); // Sicherstellen, dass id eine Zahl ist
         let item = this.data.find(item => item.id === id);
         if (item) { // Produkt ist bereits im Warenkorb
             item.quantity++;
@@ -14,12 +13,10 @@ const cartData = {
         this.save();
     },
     delete(id) {
-        // id = parseInt(id);
         this.data = this.data.filter(item => item.id !== id);
         this.save();
     },
     update(id, quantity) {
-        // id = parseInt(id);
         const product = this.data.find(item => item.id === id);
         if (product) {
             product.quantity = quantity;
