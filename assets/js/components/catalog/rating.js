@@ -1,7 +1,11 @@
 'use strict';
 
-// eslint-disable-next-line no-redeclare
-const catalogRating = {
+// Assuming catalogIndex and catalogData will be imported by the module that uses catalogRating (i.e., catalog/index.js)
+// and will pass necessary data or call methods on an instantiated/imported catalogRating object.
+// For now, catalogRating might still refer to global catalogIndex and catalogData if its consumer does not inject them.
+// This will be resolved when catalog/index.js is modularized.
+
+export const catalogRating = {
     stars() {
         let stars = '';
         for (let i = 1; i <= 5; i++) {
@@ -14,7 +18,7 @@ const catalogRating = {
     handleMouseOver(e) {
         e.preventDefault();
 
-        const rating = catalogRating.getRatingValue(e.target);
+        const rating = this.getRatingValue(e.target); // Changed to this.getRatingValue
         const parent = e.target.closest('[data-segment="rating"]');
 
         parent.querySelectorAll('svg[data-value]').forEach((s, index) => {
@@ -22,25 +26,36 @@ const catalogRating = {
             s.classList.toggle('text-gray-300', index >= rating);
         });
     },
-    handleClick(e) {
+    // handleClick will need catalogIndex and catalogData passed or imported if they become non-global
+    handleClick(e, _catalogIndex, _catalogData) { // Placeholder for future dependency injection
         e.preventDefault();
+        // Use passed-in dependencies or fall back to globals for now
+        const currentCatalogIndex = _catalogIndex || window.catalogIndex;
+        const currentCatalogData = _catalogData || window.catalogData;
 
-        const rating = catalogRating.getRatingValue(e.target);
-        const productId = catalogIndex.getProductId(e.target);
 
-        catalogData.saveRating(productId, rating); // Save the rating to the data store
-        const product = catalogData.findById(productId);
+        const rating = this.getRatingValue(e.target); // Changed to this.getRatingValue
+        const productId = currentCatalogIndex.getProductId(e.target);
+
+        currentCatalogData.saveRating(productId, rating);
+        const product = currentCatalogData.findById(productId);
         if (product) {
             const parent = e.target.closest('[data-segment="rating"]');
-            parent.querySelector('div p').innerText = catalogRating.displayRating(product); // Update displayed rating
+            parent.querySelector('div p').innerText = this.displayRating(product); // Changed to this.displayRating
         } else {
             console.warn(`Product with ID ${productId} not found!`);
         }
     },
     getRatingValue(el) {
-        return parseInt(el.getAttribute('data-value') || el.parentNode.getAttribute('data-value')); // Fallback to parent if event on path triggered
+        // Ensure 'el' is the SVG element or its child path, not a higher parent
+        let targetEl = el.closest('svg[data-value]');
+        return parseInt(targetEl.getAttribute('data-value'));
     },
     displayRating(product) {
-        return `${product.ratingAvg.toFixed(2)} [${product.ratingCount}]`;
+        if (product && typeof product.ratingAvg === 'number' && typeof product.ratingCount === 'number') {
+            return `${product.ratingAvg.toFixed(2)} [${product.ratingCount}]`;
+        }
+        // Fallback for products without rating or if rating is not yet calculated
+        return `0.00 [0]`;
     },
 };

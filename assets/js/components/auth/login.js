@@ -1,45 +1,52 @@
 'use strict';
 
-// eslint-disable-next-line no-redeclare, no-unused-vars
-const authLogin = {
+import { loadJSON } from '../utils.js';
+import { elements } from '../../dom.js';
+// Assuming catalogData and render are handled globally or by index.js if needed upon login success
+// For now, this component primarily interacts with elements for layout changes.
+
+export const authLogin = {
     init() {
-        document
-            .querySelector('#login-layout form')
-            .addEventListener('submit', this.submit.bind(this));
+        const loginForm = document.querySelector('#login-layout form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', this.submit.bind(this));
+        } else {
+            console.error("Login form not found for init.");
+        }
     },
     submit(e) {
         e.preventDefault();
         const form = e.target;
-        const email = form.querySelector('[name="email"]').value;
-        const password = form.querySelector('[name="password"]').value;
-        const remember = form.querySelector('#remember').checked;
-        // console.log('Login attempt:', { email, password, remember });
+        const emailInput = form.querySelector('[name="email"]'); // email variable was unused
+        const passwordInput = form.querySelector('[name="password"]'); // password variable was unused
+        const rememberCheckbox = form.querySelector('#remember');
+
+        // Values are used in the dummyjson example, but not in the current utils.loadJSON path
+        // const email = emailInput ? emailInput.value : '';
+        // const password = passwordInput ? passwordInput.value : '';
+        const remember = rememberCheckbox ? rememberCheckbox.checked : false;
 
         const url = remember ? './data/login-ok.json' : './data/login-error.json';
-        // Simulate an AJAX request to login
-        utils.loadJSON(url, (payload) => {
+
+        loadJSON(url, (payload) => {
             if (payload.id) {
-                // authData.login(email, password);
-                // authData.current_user = payload.user; // Simulate successful login
-                // render.catalog(catalogData.data); // Refresh catalog view
-                elements.loginLayout.classList.add('hidden'); // Hide login layout
-                elements.catalogLayout.classList.remove('hidden'); // Show catalog layout
+                // Simulate successful login actions
+                // If authData module existed: authData.login(email, password);
+                // If authData module existed: authData.currentUser = payload.user;
+
+                // If render and catalogData were modules and imported:
+                // render.catalog(elements.catalog.data, catalogData.data); // Refresh catalog view
+
+                // For now, directly manipulate layout visibility using imported elements
+                if (elements.login.layout) {
+                    elements.login.layout.classList.add('hidden');
+                }
+                if (elements.catalog.layout) {
+                    elements.catalog.layout.classList.remove('hidden');
+                }
             } else {
                 alert('Login failed: ' + payload.message);
             }
         });
-
-        // fetch('https://dummyjson.com/auth/login', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         username: email, // emilys
-        //         password: password, // emilyspass
-        //         expiresInMins: 30, // optional, defaults to 60
-        //     }),
-        //     credentials: 'include' // Include cookies (e.g., accessToken) in the request
-        // })
-        // .then(res => res.json())
-        // .then(console.log);
     },
 };

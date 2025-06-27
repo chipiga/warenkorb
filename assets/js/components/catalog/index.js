@@ -1,49 +1,46 @@
 'use strict';
 
-// eslint-disable-next-line no-redeclare
-const catalogIndex = {
-    init(parent) {
-        // utils.createDOM(`
-        //     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-        //         <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
-        //             <div>
-        //                 <div class="relative">
-        //                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-        //                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-        //                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-        //                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-        //                                 stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-        //                         </svg>
-        //                     </div>
-        //                     <input type="search" id="catalog-search"
-        //                         class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        //                         placeholder="Search..." required />
-        //                 </div>
-        //             </div>
-        //             <div class="flex items-center space-x-4 cursor-pointer" id="cart-open">
-        //                 <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true"
-        //                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-        //                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-        //                         d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-        //                 </svg>
-        //             </div>
-        //         </div>
-        //         <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4" id="catalog-data">
-        //             No data
-        //         </div>
-        //     </div>
-        // `, 'section', parent, 'bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12');
-        document.getElementById('catalog-search').addEventListener('input', (e) => {
-            const filteredData = catalogData.search(e.target.value);
-            // catalogIndex.renderProducts(document.getElementById('catalog-data'), filteredData);
-            render.catalog(filteredData);
-        });
+import { catalogData } from './data.js'; // catalog/data.js, already a module
+import { cartData } from '../cart/data.js';    // cart/data.js, already a module
+import { createDOM, numberCurrency } from '../utils.js'; // utils.js, already a module
+import { render } from '../../render.js';   // main render.js, already a module
+import { catalogRating } from './rating.js'; // catalog/rating.js, already a module
+import { elements } from '../../dom.js';     // main dom.js, already a module
+
+export const catalogIndex = {
+    init(_parent) { // _parent was unused, prefixed with _
+        // The parent parameter for init was unused. If it was meant for the main catalog container,
+        // it could be elements.catalog.layout or elements.main, passed from assets/js/index.js.
+        // For now, init only sets up search.
+
+        // Search event listener
+        // elements.catalog.search should be available via imported 'elements' from dom.js
+        if (elements.catalog && elements.catalog.search) {
+            elements.catalog.search.addEventListener('input', (e) => {
+                const filteredData = catalogData.search(e.target.value);
+                // render.catalog now expects (targetElement, payload)
+                // elements.catalog.data is the target for product listings
+                if (elements.catalog && elements.catalog.data) {
+                    render.catalog(elements.catalog.data, filteredData);
+                } else {
+                    console.error("catalogIndex.init: elements.catalog.data not found for search rendering.");
+                }
+            });
+        } else {
+            console.error("catalogIndex.init: Catalog search input not found.");
+        }
     },
-    renderProducts(parent, products) {
+    renderProducts(targetElement, products) { // Renamed parent to targetElement
+        if (!targetElement) {
+            console.error("catalogIndex.renderProducts: targetElement must be provided.");
+            return;
+        }
+        // targetElement.innerHTML = ''; // Clearing is done by render.catalog before calling this
+
         for (const product of products) {
-            const el = utils.createDOM(
+            const el = createDOM( // Use imported createDOM
                 `
-                <div data-product-id="${product.id}" class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800>">
+                <div data-product-id="${product.id}" class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                     <div class="h-56 w-full">
                         <a href="#"  class="h-56 w-full">
                             <img class="mx-auto h-full" src="${product.image}" alt="${product.name}" />
@@ -68,9 +65,9 @@ const catalogIndex = {
                         </div>
 
                         <div class="mt-4 flex items-center justify-between gap-4">
-                            <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">${utils.numberCurrency(product.price)}</p>
+                            <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">${numberCurrency(product.price)}</p>
 
-                            <button type="button" class="inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4  focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <button type="button" class="add-to-cart-btn inline-flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4  focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                 Add to cart
                             </button>
                         </div>
@@ -78,24 +75,32 @@ const catalogIndex = {
                 </div>
             `,
                 'div',
-                parent
+                targetElement
             );
 
-            el.querySelector('button').addEventListener('click', this.handleAddToCart);
+            // Bind 'this' for handleAddToCart or pass necessary dependencies if it becomes static/standalone.
+            // For now, assuming handleAddToCart is called correctly as a method of catalogIndex.
+            el.querySelector('button.add-to-cart-btn').addEventListener('click', (e) => this.handleAddToCart(e));
+
             el.querySelectorAll('[data-segment="rating"] svg[data-value]').forEach((star) => {
-                star.addEventListener('mouseover', catalogRating.handleMouseOver);
-                star.addEventListener('click', catalogRating.handleClick);
+                star.addEventListener('mouseover', catalogRating.handleMouseOver.bind(catalogRating));
+                // Pass catalogIndex and catalogData to handleClick if it needs them and they are no longer global
+                // For now, catalogRating.handleClick was modified to accept them as args or use window globals.
+                star.addEventListener('click', (e) => catalogRating.handleClick(e, catalogIndex, catalogData));
             });
         }
     },
     handleAddToCart(e) {
         e.preventDefault();
-        const productId = catalogIndex.getProductId(e.target);
-        cartData.add(productId);
+        const productId = this.getProductId(e.target); // Changed to this.getProductId
+        cartData.add(productId); // cartData is imported
         alert(`Product with ID ${productId} added to cart!`);
-        // If render object and its methods are available (they should be global)
-        if (typeof render !== 'undefined' && render.summary) {
-            render.summary(); // Update summary after adding to cart
+
+        // render.summary is imported. elements.cart.summary is the target.
+        if (elements.cart && elements.cart.summary) {
+            render.summary(elements.cart.summary);
+        } else {
+            console.error("catalogIndex.handleAddToCart: elements.cart.summary not found for rendering.");
         }
     },
     getProductId(el) {

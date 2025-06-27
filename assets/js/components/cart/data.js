@@ -1,7 +1,6 @@
 'use strict';
 
-// eslint-disable-next-line no-redeclare, no-unused-vars
-const cartData = {
+export const cartData = {
     data: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [], // {id, quantity}
     add(id) {
         let item = this.data.find((item) => item.id === id);
@@ -27,6 +26,6 @@ const cartData = {
     },
     save() {
         localStorage.setItem('cart', JSON.stringify(this.data));
-        // render.summary(); // Removed: UI update is now responsibility of the caller
+        // UI update is now responsibility of the caller
     },
 };
