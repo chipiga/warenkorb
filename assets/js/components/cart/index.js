@@ -83,7 +83,18 @@ const cartIndex = {
         e.preventDefault();
         const productId = cartIndex.getProductId(e.target);
         cartData.delete(productId);
+        // The element is removed directly here. Re-rendering the whole cart might be an alternative.
         e.target.closest('[data-product-id]').parentNode.remove();
+        // Update summary
+        if (typeof render !== 'undefined' && render.summary) {
+            render.summary();
+        }
+        // If cart becomes empty, render.cart() might show "No data" message.
+        // However, direct DOM removal above handles the visual item removal.
+        // If cartData.data is empty, a full render.cart() could be useful.
+        if (cartData.data.length === 0 && typeof render !== 'undefined' && render.cart) {
+            render.cart(); // To show "No data" if cart is now empty.
+        }
     },
     handleQuantityChange(e) {
         e.preventDefault();
@@ -99,6 +110,14 @@ const cartIndex = {
         input.value = value;
         const productId = cartIndex.getProductId(e.target);
         cartData.update(productId, value);
+        // Update summary
+        if (typeof render !== 'undefined' && render.summary) {
+            render.summary();
+        }
+        // Note: A full render.cart() isn't strictly necessary here if only quantity/price per item updates
+        // and the summary handles the total. But if item-specific rendering in the cart
+        // needs to change based on quantity (e.g. stock warnings), then render.cart() might be needed.
+        // For now, only updating summary.
     },
     getProductId(el) {
         return parseInt(el.closest('[data-product-id]').getAttribute('data-product-id'));

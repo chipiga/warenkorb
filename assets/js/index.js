@@ -34,7 +34,24 @@ const init = () => {
     }, 0); // setTimeout with 0ms defers execution slightly, allowing DOM scripts to complete.
 
     if (typeof catalogData !== 'undefined' && catalogData.load) {
-        catalogData.load('./data/products.json');
+        catalogData.load('./data/products.json', function(loadedProducts) {
+            // Now render.catalog is called here, after data is loaded and processed.
+            // Assumes render.catalog expects the product data as its first argument
+            // and the target element as its second, or that render.catalog still uses global elements.catalog.data
+            // Based on prior (failed) refactor of render.js, it was intended to be render.catalog(targetElement, payload)
+            // For now, let's assume render.catalog(payload) is the effective signature if render.js wasn't changed,
+            // or it has its own fallback.
+            if (typeof render !== 'undefined' && render.catalog) {
+                // If render.catalog was successfully refactored to take (target, payload):
+                // if (elements && elements.catalog && elements.catalog.data) {
+                //     render.catalog(elements.catalog.data, loadedProducts);
+                // } else {
+                //     render.catalog(document.querySelector('#catalog-data'), loadedProducts); // Fallback target
+                // }
+                // If render.catalog still takes only (payload) and uses global elements.catalogData:
+                render.catalog(loadedProducts);
+            }
+        });
     }
 
     if (typeof authLogin !== 'undefined' && authLogin.init) {

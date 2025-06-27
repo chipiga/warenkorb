@@ -27,6 +27,6 @@ const cartData = {
     },
     save() {
         localStorage.setItem('cart', JSON.stringify(this.data));
-        render.summary();
+        // render.summary(); // Removed: UI update is now responsibility of the caller
     },
 };

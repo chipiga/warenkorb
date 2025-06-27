@@ -93,6 +93,10 @@ const catalogIndex = {
         const productId = catalogIndex.getProductId(e.target);
         cartData.add(productId);
         alert(`Product with ID ${productId} added to cart!`);
+        // If render object and its methods are available (they should be global)
+        if (typeof render !== 'undefined' && render.summary) {
+            render.summary(); // Update summary after adding to cart
+        }
     },
     getProductId(el) {
         return parseInt(el.closest('[data-product-id]').getAttribute('data-product-id'));

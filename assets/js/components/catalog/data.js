@@ -3,13 +3,25 @@
 // eslint-disable-next-line no-redeclare, no-unused-vars
 const catalogData = {
     data: [],
-    load(url) {
-        utils.loadJSON(url, this.save.bind(this));
+    load(url, onLoadCallback) { // Added onLoadCallback
+        utils.loadJSON(
+            url,
+            function (payload) { // Use a regular function to maintain 'this' context if needed, or arrow if not.
+                this._processLoadedData(payload);
+                if (typeof onLoadCallback === 'function') {
+                    onLoadCallback(payload);
+                }
+            }.bind(this) // Bind 'this' to ensure catalogData context
+        );
     },
-    save(payload) {
+    _processLoadedData(payload) { // Renamed from save, and removed render call
         this.data = payload;
-        render.catalog(payload); // TODO callback?
+        // render.catalog(payload); // Removed: UI update is now responsibility of the caller via onLoadCallback
     },
+    // The old save method's TODO was about a callback, which is now implemented in load.
+    // If there's a need for a generic save method (e.g. to localStorage, not currently used for catalog),
+    // it would be separate.
+
     search(query) {
         if (!query) {return this.data;}
         query = query.toLowerCase();
