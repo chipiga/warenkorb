@@ -1,18 +1,17 @@
 'use strict';
 
-// Import specific functions from utils.js
-import { loadJSON } from './utils.js'; // Assuming utils.js is in the same directory
+import { loadJSON } from './utils.js';
+import eventEmitter from '../../eventEmitter.js'; // Adjusted path
 
-export const catalogData = { // Added export
+export const catalogData = {
     data: [],
-    load(url, onLoadCallback) {
-        loadJSON( // Use imported loadJSON directly
+    load(url) { // Removed onLoadCallback parameter
+        loadJSON(
             url,
             function (payload) {
                 this._processLoadedData(payload);
-                if (typeof onLoadCallback === 'function') {
-                    onLoadCallback(payload);
-                }
+                // Emit event instead of calling callback
+                eventEmitter.emit('productsLoaded', this.data);
             }.bind(this)
         );
     },
@@ -37,7 +36,7 @@ export const catalogData = { // Added export
     saveRating(productId, rating) {
         const product = this.findById(productId);
         if (product) {
-            product.ratingAvg = (product.ratingAvg + rating) / 2; // Simple average for demo
+            product.ratingAvg = (product.ratingAvg + rating) / 2;
             product.ratingCount = (product.ratingCount || 0) + 1;
         } else {
             console.warn(`Product with ID ${productId} not found!`);

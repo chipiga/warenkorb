@@ -3,25 +3,23 @@
 import { cartData } from './data.js';
 import { catalogData } from '../catalog/data.js';
 import { createDOM, numberCurrency } from '../utils.js';
-import { render } from '../../render.js'; // main render.js
-import { elements } from '../../dom.js';   // main dom.js
+// render and elements are not directly used by cartIndex for rendering decisions after this change,
+// but render might be called by its event handlers if not fully event-driven for UI updates.
+// The event 'cartChanged' will now handle re-rendering of cart and summary.
+// import { render } from '../../render.js';
+// import { elements } from '../../dom.js';
 
 export const cartIndex = {
-    render(targetElement) { // parent renamed to targetElement
+    render(targetElement) {
         if (!targetElement) {
             console.error("cartIndex.render: targetElement must be provided.");
             return;
         }
-        // Clearing is done by render.cart before calling this.
-        // targetElement.innerHTML = '';
+        // Clearing of targetElement is typically done by the calling render.cart function in main render.js
 
         if (cartData.data.length === 0) {
-            // If cart is empty, a "No data" message could be shown by render.cart
-            // or here, if this component is solely responsible for its content.
-            // For now, render.cart handles clearing, and if no items, it remains empty.
-            // The "No data" HTML is in index.html as a placeholder.
-            // To make it reappear, render.cart would need to add it when cartData is empty.
-            // Let's assume render.cart (from main render.js) handles this.
+            // If cart is empty, render.cart (from main render.js) should ideally show a "No data" message.
+            // This component (cartIndex) just doesn't add any items if data is empty.
             return;
         }
 
@@ -89,7 +87,7 @@ export const cartIndex = {
                 targetElement,
                 'rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6'
             );
-            // Bind 'this' to ensure correct context in event handlers
+
             el.querySelector('button[data-action="remove"]').addEventListener('click', (e) => this.handleRemove(e));
             el.querySelector('button[data-action="increment"]').addEventListener('click', (e) => this.handleQuantityChange(e));
             el.querySelector('button[data-action="decrement"]').addEventListener('click', (e) => this.handleQuantityChange(e));
@@ -97,17 +95,11 @@ export const cartIndex = {
     },
     handleRemove(e) {
         e.preventDefault();
-        const productId = this.getProductId(e.target); // Use this.getProductId
-        cartData.delete(productId);
-
-        // Instead of directly removing, re-render the cart and summary
-        // elements.cart.data and elements.cart.summary are the targets
-        if (elements.cart && elements.cart.data) {
-            render.cart(elements.cart.data);
-        }
-        if (elements.cart && elements.cart.summary) {
-            render.summary(elements.cart.summary);
-        }
+        const productId = this.getProductId(e.target);
+        cartData.delete(productId); // This will trigger cartData.save() which emits 'cartChanged'
+        // UI update (removing item, updating summary, re-rendering cart if empty)
+        // is now handled by the 'cartChanged' event listener in dom.js.
+        // No direct render calls here.
     },
     handleQuantityChange(e) {
         e.preventDefault();
@@ -122,28 +114,32 @@ export const cartIndex = {
             if (value > 1) {
                 value--;
             } else {
-                // Optionally, remove item if quantity goes to 0, or just prevent going below 1
-                return; // Do nothing if trying to decrement below 1
+                return;
             }
         }
 
-        const productId = this.getProductId(e.currentTarget); // Use this.getProductId
-        cartData.update(productId, value);
+        const productId = this.getProductId(e.currentTarget);
+        cartData.update(productId, value); // This will trigger cartData.save() which emits 'cartChanged'
 
-        // Update the specific input field and item total directly for responsiveness
-        input.value = value;
-        const product = catalogData.findById(productId);
-        if (product) {
-            const priceElement = productRow.querySelector('.md\\:order-4 .dark\\:text-white');
-            if (priceElement) {
-                priceElement.textContent = numberCurrency(product.price * value);
-            }
-        }
+        // The direct DOM manipulation of input value and item total can be removed
+        // if the 'cartChanged' event listener re-renders the whole cart.
+        // For now, keeping it for immediate responsiveness, but it might be redundant
+        // if render.cart() is efficient and re-renders everything.
+        // If render.cart() re-renders all items, these lines are not strictly needed.
+        // However, if 'cartChanged' only updates summary and doesn't re-render each item, these are needed.
+        // The current 'cartChanged' listener in dom.js calls render.cart() and render.summary().
+        // So, render.cart() will call cartIndex.render(), which rebuilds all cart items.
+        // Therefore, these direct DOM updates for item quantity and price are indeed redundant.
+        // input.value = value; // Redundant if full cart re-render
+        // const product = catalogData.findById(productId);
+        // if (product) {
+        //     const priceElement = productRow.querySelector('.md\\:order-4 .dark\\:text-white');
+        //     if (priceElement) {
+        //         priceElement.textContent = numberCurrency(product.price * value); // Redundant
+        //     }
+        // }
 
-        // Update the overall cart summary
-        if (elements.cart && elements.cart.summary) {
-            render.summary(elements.cart.summary);
-        }
+        // No direct render calls here. UI updates are handled by 'cartChanged' event.
     },
     getProductId(el) {
         return parseInt(el.closest('[data-product-id]').getAttribute('data-product-id'));

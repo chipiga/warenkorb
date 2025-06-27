@@ -1,9 +1,14 @@
 'use strict';
 
-// Import the render module
-import { render } from './render.js'; // Assuming render.js is in the same directory
+import { render } from './render.js';
+import eventEmitter from './eventEmitter.js';
+// Assuming the intention was that 'elements' is defined and exported by this module,
+// not imported from a separate 'dom-elements.js'.
+// If 'dom-elements.js' was a real file, its content should be merged here or imported correctly.
+// For this refactor, I will assume 'elements' is defined and exported from this file.
+// Removing the problematic import and using a locally defined 'elements' which is exported.
 
-export const elements = {
+export const elements = { // Changed pageElements back to elements to match export
     main: null,
     catalog: {
         layout: null,
@@ -25,20 +30,14 @@ export const elements = {
 export const dom = {
     mapElements() {
         elements.main = document.querySelector('main');
-
-        // Catalog elements
         elements.catalog.layout = document.querySelector('#catalog-layout');
         elements.catalog.data = document.querySelector('#catalog-data');
         elements.catalog.search = document.querySelector('#catalog-search');
-
-        // Cart elements
         elements.cart.layout = document.querySelector('#cart-layout');
         elements.cart.data = document.querySelector('#cart-data');
         elements.cart.openButton = document.querySelector('#cart-open');
         elements.cart.closeButton = document.querySelector('#cart-close');
         elements.cart.summary = document.querySelector('#cart-summary');
-
-        // Login elements
         elements.login.layout = document.querySelector('#login-layout');
     },
 
@@ -46,41 +45,21 @@ export const dom = {
         if (elements.cart.openButton) {
             elements.cart.openButton.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (elements.catalog.layout) {
-                    elements.catalog.layout.classList.toggle('hidden');
-                }
-                if (elements.cart.layout) {
-                    elements.cart.layout.classList.toggle('hidden');
-                }
-
-                // Call imported render functions with target elements
-                if (elements.cart.data) {
-                    render.cart(elements.cart.data);
-                }
-                if (elements.cart.summary) {
-                    render.summary(elements.cart.summary);
-                }
+                eventEmitter.emit('ui:openCartView');
             });
         }
 
         if (elements.cart.closeButton) {
             elements.cart.closeButton.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (elements.catalog.layout) {
-                    elements.catalog.layout.classList.toggle('hidden');
-                }
-                if (elements.cart.layout) {
-                    elements.cart.layout.classList.toggle('hidden');
-                }
+                eventEmitter.emit('ui:closeCartView');
             });
         }
 
         document.querySelectorAll('[data-login="true"]').forEach((el) => {
             el.addEventListener('click', (e) => {
                 e.preventDefault();
-                if (elements.catalog.layout) {elements.catalog.layout.classList.add('hidden');}
-                if (elements.cart.layout) {elements.cart.layout.classList.add('hidden');}
-                if (elements.login.layout) {elements.login.layout.classList.remove('hidden');}
+                eventEmitter.emit('ui:openLoginView');
             });
         });
 
@@ -92,8 +71,56 @@ export const dom = {
         });
     },
 
+    subscribeToAppEvents() {
+        // Data event subscriptions
+        eventEmitter.on('cartChanged', (_cartData) => {
+            if (elements.cart.data) {
+                render.cart(elements.cart.data);
+            }
+            if (elements.cart.summary) {
+                render.summary(elements.cart.summary);
+            }
+        });
+
+        // UI Navigation Event Subscriptions
+        eventEmitter.on('ui:openCartView', () => {
+            if (elements.catalog.layout) {
+                elements.catalog.layout.classList.add('hidden'); // Explicitly hide catalog
+            }
+            if (elements.cart.layout) {
+                elements.cart.layout.classList.remove('hidden'); // Explicitly show cart
+            }
+            if (elements.login.layout) { // Ensure login is hidden if navigating to cart
+                elements.login.layout.classList.add('hidden');
+            }
+            // Ensure cart is rendered with latest data when opened
+            if (elements.cart.data) {
+                render.cart(elements.cart.data);
+            }
+            if (elements.cart.summary) {
+                render.summary(elements.cart.summary);
+            }
+        });
+
+        eventEmitter.on('ui:closeCartView', () => {
+            if (elements.catalog.layout) {
+                elements.catalog.layout.classList.remove('hidden'); // Show catalog
+            }
+            if (elements.cart.layout) {
+                elements.cart.layout.classList.add('hidden'); // Hide cart
+            }
+        });
+
+        eventEmitter.on('ui:openLoginView', () => {
+            if (elements.catalog.layout) elements.catalog.layout.classList.add('hidden');
+            if (elements.cart.layout) elements.cart.layout.classList.add('hidden');
+            if (elements.login.layout) elements.login.layout.classList.remove('hidden');
+        });
+    },
+
     init() {
         this.mapElements();
         this.attachEventListeners();
+        this.subscribeToAppEvents();
     },
 };

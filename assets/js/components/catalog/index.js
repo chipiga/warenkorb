@@ -93,15 +93,11 @@ export const catalogIndex = {
     handleAddToCart(e) {
         e.preventDefault();
         const productId = this.getProductId(e.target); // Changed to this.getProductId
-        cartData.add(productId); // cartData is imported
+        cartData.add(productId); // cartData is imported. This will trigger cartData.save() which emits 'cartChanged'.
         alert(`Product with ID ${productId} added to cart!`);
 
-        // render.summary is imported. elements.cart.summary is the target.
-        if (elements.cart && elements.cart.summary) {
-            render.summary(elements.cart.summary);
-        } else {
-            console.error("catalogIndex.handleAddToCart: elements.cart.summary not found for rendering.");
-        }
+        // Removed direct call to render.summary(). UI updates are now handled by
+        // the 'cartChanged' event listener in dom.js.
     },
     getProductId(el) {
         return parseInt(el.closest('[data-product-id]').getAttribute('data-product-id'));

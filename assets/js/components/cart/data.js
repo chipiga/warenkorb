@@ -1,11 +1,12 @@
 'use strict';
 
+import eventEmitter from '../../eventEmitter.js'; // Adjusted path
+
 export const cartData = {
     data: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : [], // {id, quantity}
     add(id) {
         let item = this.data.find((item) => item.id === id);
         if (item) {
-            // Produkt ist bereits im Warenkorb
             item.quantity++;
         } else {
             item = { id: id, quantity: 1 };
@@ -26,6 +27,6 @@ export const cartData = {
     },
     save() {
         localStorage.setItem('cart', JSON.stringify(this.data));
-        // UI update is now responsibility of the caller
+        eventEmitter.emit('cartChanged', this.data); // Emit cartChanged event
     },
 };
