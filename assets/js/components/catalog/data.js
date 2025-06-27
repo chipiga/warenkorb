@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line no-redeclare, no-unused-vars
 const catalogData = {
     data: [],
     load(url) {
@@ -10,15 +11,17 @@ const catalogData = {
         render.catalog(payload); // TODO callback?
     },
     search(query) {
-        if (!query) return this.data;
+        if (!query) {return this.data;}
         query = query.toLowerCase();
-        return this.data.filter(item => {
-            return item.name.toLowerCase().includes(query) ||
-                   item.description.toLowerCase().includes(query);
+        return this.data.filter((item) => {
+            return (
+                item.name.toLowerCase().includes(query) ||
+                item.description.toLowerCase().includes(query)
+            );
         });
     },
     findById(productId) {
-        return this.data.find(item => item.id === productId);
+        return this.data.find((item) => item.id === productId);
     },
     saveRating(productId, rating) {
         const product = this.findById(productId);
@@ -28,5 +31,5 @@ const catalogData = {
         } else {
             console.warn(`Product with ID ${productId} not found!`);
         }
-    }
+    },
 };

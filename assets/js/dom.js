@@ -1,11 +1,11 @@
 'use strict';
 
-const elements = {
-    
-}
+// eslint-disable-next-line no-redeclare
+const elements = {};
 
+// eslint-disable-next-line no-redeclare, no-unused-vars
 const dom = {
-    mapping(){
+    mapping() {
         elements.main = document.querySelector('main');
         elements.catalogLayout = document.querySelector('#catalog-layout');
         elements.catalogData = document.querySelector('#catalog-data');
@@ -43,5 +43,5 @@ const dom = {
                 alert(e.target.dataset.alert);
             });
         });
-    }
-}
+    },
+};

@@ -1,11 +1,13 @@
 'use strict';
 
+// eslint-disable-next-line no-redeclare
 const cartIndex = {
     render(parent) {
-        cartData.data.forEach(item => {
+        cartData.data.forEach((item) => {
             const product = catalogData.findById(item.id);
-            if (!product) return; // Produkt nicht gefunden, überspringen
-            const el = utils.createDOM(`
+            if (!product) {return;} // Produkt nicht gefunden, überspringen
+            const el = utils.createDOM(
+                `
                 <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0" data-product-id="${product.id}">
                     <a href="#" class="shrink-0 md:order-1">
                         <img class="h-20 w-20" src="${product.image}" alt="${product.name}" />
@@ -60,11 +62,21 @@ const cartIndex = {
                         </div>
                     </div>
                 </div>
-            `, 'div', parent, 'rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6');
+            `,
+                'div',
+                parent,
+                'rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6'
+            );
 
             el.querySelector('button#remove-button').addEventListener('click', this.handleRemove);
-            el.querySelector('button[data-input-counter-increment]').addEventListener('click', this.handleQuantityChange);
-            el.querySelector('button[data-input-counter-decrement]').addEventListener('click', this.handleQuantityChange);
+            el.querySelector('button[data-input-counter-increment]').addEventListener(
+                'click',
+                this.handleQuantityChange
+            );
+            el.querySelector('button[data-input-counter-decrement]').addEventListener(
+                'click',
+                this.handleQuantityChange
+            );
         });
     },
     handleRemove(e) {
@@ -73,20 +85,22 @@ const cartIndex = {
         cartData.delete(productId);
         e.target.closest('[data-product-id]').parentNode.remove();
     },
-    handleQuantityChange(e) {        
+    handleQuantityChange(e) {
         e.preventDefault();
         const input = e.target.closest('div').querySelector('input');
         let value = parseInt(input.value);
-        if (e.target.closest('button').id === 'increment-button') { // because of SVG icon
+        if (e.target.closest('button').id === 'increment-button') {
+            // because of SVG icon
             value++;
-        } else { // decrement
-            if (value > 1) value--;
-        }        
+        } else {
+            // decrement
+            if (value > 1) {value--;}
+        }
         input.value = value;
         const productId = cartIndex.getProductId(e.target);
         cartData.update(productId, value);
     },
     getProductId(el) {
         return parseInt(el.closest('[data-product-id]').getAttribute('data-product-id'));
-    }
-}
+    },
+};

@@ -1,0 +1,24 @@
+{
+  "name": "shopping-cart-js",
+  "version": "1.0.0",
+  "description": "A simple shopping cart application",
+  "main": "assets/js/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "format": "prettier --write \"**/*.{js,json,css,md,html}\" --ignore-path .prettierignore",
+    "check-format": "prettier --check \"**/*.{js,json,css,md,html}\" --ignore-path .prettierignore"
+  },
+  "keywords": ["javascript", "shopping-cart"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.2.0",
+    "eslint": "^9.2.0",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.2.0",
+    "prettier": "^3.2.5"
+  }
+}

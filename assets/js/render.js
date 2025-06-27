@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line no-redeclare, no-unused-vars
 const render = {
     catalog(payload) {
         elements.catalogData.innerHTML = '';
@@ -13,4 +14,4 @@ const render = {
         elements.cartSummary.innerHTML = '';
         cartSummary.render(elements.cartSummary);
     },
-}
+};

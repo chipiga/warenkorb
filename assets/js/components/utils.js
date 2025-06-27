@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line no-redeclare, no-unused-vars
 const utils = {
     loadJSON(url, callback) {
         const xhr = new XMLHttpRequest();
@@ -10,7 +11,7 @@ const utils = {
             } else {
                 console.warn(`${xhr.responseURL} konnte nicht geladen werden: ${xhr.statusText}!`);
             }
-        })
+        });
         xhr.send();
     },
     numberCurrency(value) {
@@ -28,11 +29,10 @@ const utils = {
     },
     createDOM(content = false, type = 'div', parent = false, className = false) {
         const el = document.createElement(type);
-        if (content) el.innerHTML = content;
-        if (className) el.className = className;
-        if (parent) parent.append(el);
+        if (content) {el.innerHTML = content;}
+        if (className) {el.className = className;}
+        if (parent) {parent.append(el);}
 
         return el;
     },
-
-}
+};

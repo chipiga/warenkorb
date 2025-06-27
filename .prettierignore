@@ -1,0 +1,10 @@
+# Ignore artifacts:
+node_modules/
+dist/
+build/
+
+# Ignore data files if they are not meant to be formatted
+data/
+
+# Ignore specific files if needed
+# assets/vendor/*

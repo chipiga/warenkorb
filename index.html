@@ -1,61 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Shopping Cart</title>
-    <link href="./assets/css/styles.css" rel="stylesheet" />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Shopping Cart</title>
+        <link href="./assets/css/styles.css" rel="stylesheet" />
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Components -->
-    <script src="./assets/js/components/utils.js"></script>
-    <script src="./assets/js/components/catalog/data.js"></script>
-    <script src="./assets/js/components/catalog/rating.js"></script>
-    <script src="./assets/js/components/catalog/index.js"></script>
-    <script src="./assets/js/components/cart/data.js"></script>
-    <script src="./assets/js/components/cart/index.js"></script>
-    <script src="./assets/js/components/cart/summary.js"></script>
-    <script src="./assets/js/components/auth/login.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <!-- Components -->
+        <script src="./assets/js/components/utils.js"></script>
+        <script src="./assets/js/components/catalog/data.js"></script>
+        <script src="./assets/js/components/catalog/rating.js"></script>
+        <script src="./assets/js/components/catalog/index.js"></script>
+        <script src="./assets/js/components/cart/data.js"></script>
+        <script src="./assets/js/components/cart/index.js"></script>
+        <script src="./assets/js/components/cart/summary.js"></script>
+        <script src="./assets/js/components/auth/login.js"></script>
 
-    <script src="./assets/js/dom.js"></script>
-    <script src="./assets/js/render.js"></script>
-    <script src="./assets/js/index.js" defer></script>
-</head>
+        <script src="./assets/js/dom.js"></script>
+        <script src="./assets/js/render.js"></script>
+        <script src="./assets/js/index.js" defer></script>
+    </head>
 
-<body>
-    <header>
-    </header>
-    <main>
-        <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12" id="catalog-layout">
-            <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-                <!-- Search & cart -->
-                <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
-                    <div>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                </svg>
+    <body>
+        <header></header>
+        <main>
+            <section
+                class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12"
+                id="catalog-layout"
+            >
+                <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                    <!-- Search & cart -->
+                    <div
+                        class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8"
+                    >
+                        <div>
+                            <div class="relative">
+                                <div
+                                    class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+                                >
+                                    <svg
+                                        class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path
+                                            stroke="currentColor"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                                        />
+                                    </svg>
+                                </div>
+                                <input
+                                    type="search"
+                                    id="catalog-search"
+                                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Search..."
+                                    required
+                                />
                             </div>
-                            <input type="search" id="catalog-search"
-                                class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Search..." required />
+                        </div>
+                        <div class="flex items-center space-x-4 cursor-pointer" id="cart-open">
+                            <svg
+                                class="w-8 h-8 text-gray-800 dark:text-white"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke="currentColor"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"
+                                />
+                            </svg>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-4 cursor-pointer" id="cart-open">
-                        <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4" id="catalog-data">
-                    No data
-                    <!-- <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                    <div
+                        class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"
+                        id="catalog-data"
+                    >
+                        No data
+                        <!-- <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                         <div class="h-56 w-full">
                             <a href="#"  class="h-56 w-full">
                                 <img class="mx-auto h-full" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="" />
@@ -85,19 +120,24 @@
                             </div>
                         </div>
                     </div> -->
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16 hidden" id="cart-layout">
-            <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Shopping Cart</h2>
+            <section
+                class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16 hidden"
+                id="cart-layout"
+            >
+                <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+                        Shopping Cart
+                    </h2>
 
-                <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
-                    <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
-                        <div class="space-y-6" id="cart-data">
-                            No data
-                            <!-- <div
+                    <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+                        <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+                            <div class="space-y-6" id="cart-data">
+                                No data
+                                <!-- <div
                                 class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
                                 <div class="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                                     <a href="#" class="shrink-0 md:order-1">
@@ -160,17 +200,20 @@
                                     </div>
                                 </div>
                             </div> -->
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
-                        <div
-                            class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-                            <p class="text-xl font-semibold text-gray-900 dark:text-white">Order summary</p>
+                        <div class="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
+                            <div
+                                class="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6"
+                            >
+                                <p class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Order summary
+                                </p>
 
-                            <div class="space-y-4" id="cart-summary">
-                                No data
-                                <!-- <div class="space-y-2">
+                                <div class="space-y-4" id="cart-summary">
+                                    No data
+                                    <!-- <div class="space-y-2">
                                     <dl class="flex items-center justify-between gap-4">
                                         <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Cost</dt>
                                         <dd class="text-base font-medium text-gray-900 dark:text-white">$7,592.00</dd>
@@ -192,85 +235,140 @@
                                     <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
                                     <dd class="text-base font-bold text-gray-900 dark:text-white">$8,191.00</dd>
                                 </dl> -->
-                            </div>
+                                </div>
 
-                            <a href="#" data-login="true"
-                                class="flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed
-                                to Checkout</a>
+                                <a
+                                    href="#"
+                                    data-login="true"
+                                    class="flex w-full items-center justify-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    >Proceed to Checkout</a
+                                >
 
-                            <div class="flex items-center justify-center gap-2">
-                                <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> or </span>
-                                <a href="#" title="" id="cart-close"
-                                    class="inline-flex items-center gap-2 text-sm font-medium text-blue-700 underline hover:no-underline dark:text-blue-500">
-                                    Continue Shopping
-                                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                        fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
-                                    </svg>
-                                </a>
+                                <div class="flex items-center justify-center gap-2">
+                                    <span
+                                        class="text-sm font-normal text-gray-500 dark:text-gray-400"
+                                    >
+                                        or
+                                    </span>
+                                    <a
+                                        href="#"
+                                        title=""
+                                        id="cart-close"
+                                        class="inline-flex items-center gap-2 text-sm font-medium text-blue-700 underline hover:no-underline dark:text-blue-500"
+                                    >
+                                        Continue Shopping
+                                        <svg
+                                            class="h-5 w-5"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke="currentColor"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M19 12H5m14 0-4 4m4-4-4-4"
+                                            />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-        <section class="bg-gray-50 dark:bg-gray-900 hidden" id="login-layout">
-            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            </section>
+            <section class="bg-gray-50 dark:bg-gray-900 hidden" id="login-layout">
                 <div
-                    class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1
-                            class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Sign in to your account
-                        </h1>
-                        <form class="space-y-4 md:space-y-6" action="#">
-                            <div>
-                                <label for="email"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                                    email</label>
-                                <input type="email" name="email" id="email"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="name@company.com" required="">
-                            </div>
-                            <div>
-                                <label for="password"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    required="">
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-start">
-                                    <div class="flex items-center h-5">
-                                        <input id="remember" aria-describedby="remember" type="checkbox"
-                                            class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800">
-                                    </div>
-                                    <div class="ml-3 text-sm">
-                                        <label for="remember" class="text-gray-500 dark:text-gray-300">Remember
-                                            me</label>
-                                    </div>
+                    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+                >
+                    <div
+                        class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+                    >
+                        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                            <h1
+                                class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+                            >
+                                Sign in to your account
+                            </h1>
+                            <form class="space-y-4 md:space-y-6" action="#">
+                                <div>
+                                    <label
+                                        for="email"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >Your email</label
+                                    >
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="name@company.com"
+                                        required=""
+                                    />
                                 </div>
-                                <a href="#" data-alert="Not implemented"
-                                    class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot
-                                    password?</a>
-                            </div>
-                            <button type="submit"
-                                class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign
-                                in</button>
-                            <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                                Don’t have an account yet? <a href="#" data-alert="Not implemented"
-                                    class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign
-                                    up</a>
-                            </p>
-                        </form>
+                                <div>
+                                    <label
+                                        for="password"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >Password</label
+                                    >
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        id="password"
+                                        placeholder="••••••••"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        required=""
+                                    />
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-start">
+                                        <div class="flex items-center h-5">
+                                            <input
+                                                id="remember"
+                                                aria-describedby="remember"
+                                                type="checkbox"
+                                                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                                            />
+                                        </div>
+                                        <div class="ml-3 text-sm">
+                                            <label
+                                                for="remember"
+                                                class="text-gray-500 dark:text-gray-300"
+                                                >Remember me</label
+                                            >
+                                        </div>
+                                    </div>
+                                    <a
+                                        href="#"
+                                        data-alert="Not implemented"
+                                        class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                        >Forgot password?</a
+                                    >
+                                </div>
+                                <button
+                                    type="submit"
+                                    class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                >
+                                    Sign in
+                                </button>
+                                <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                                    Don’t have an account yet?
+                                    <a
+                                        href="#"
+                                        data-alert="Not implemented"
+                                        class="font-medium text-blue-600 hover:underline dark:text-blue-500"
+                                        >Sign up</a
+                                    >
+                                </p>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
-    <footer>
-    </footer>
-</body>
-
+            </section>
+        </main>
+        <footer></footer>
+    </body>
 </html>

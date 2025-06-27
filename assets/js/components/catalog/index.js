@@ -1,7 +1,8 @@
 'use strict';
 
+// eslint-disable-next-line no-redeclare
 const catalogIndex = {
-    init(parent){
+    init(parent) {
         // utils.createDOM(`
         //     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
         //         <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
@@ -40,7 +41,8 @@ const catalogIndex = {
     },
     renderProducts(parent, products) {
         for (const product of products) {
-            const el = utils.createDOM(`
+            const el = utils.createDOM(
+                `
                 <div data-product-id="${product.id}" class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800>">
                     <div class="h-56 w-full">
                         <a href="#"  class="h-56 w-full">
@@ -74,15 +76,16 @@ const catalogIndex = {
                         </div>
                     </div>
                 </div>
-            `, 'div', parent);
+            `,
+                'div',
+                parent
+            );
 
             el.querySelector('button').addEventListener('click', this.handleAddToCart);
-            el.querySelectorAll('[data-segment="rating"] svg[data-value]').forEach(
-                (star) => {
-                    star.addEventListener('mouseover', catalogRating.handleMouseOver);
-                    star.addEventListener('click', catalogRating.handleClick);
-                }
-            );
+            el.querySelectorAll('[data-segment="rating"] svg[data-value]').forEach((star) => {
+                star.addEventListener('mouseover', catalogRating.handleMouseOver);
+                star.addEventListener('click', catalogRating.handleClick);
+            });
         }
     },
     handleAddToCart(e) {
@@ -93,5 +96,5 @@ const catalogIndex = {
     },
     getProductId(el) {
         return parseInt(el.closest('[data-product-id]').getAttribute('data-product-id'));
-    }
-}
+    },
+};

@@ -1,8 +1,11 @@
 'use strict';
 
+// eslint-disable-next-line no-redeclare, no-unused-vars
 const authLogin = {
     init() {
-        document.querySelector('#login-layout form').addEventListener('submit', this.submit.bind(this));
+        document
+            .querySelector('#login-layout form')
+            .addEventListener('submit', this.submit.bind(this));
     },
     submit(e) {
         e.preventDefault();
@@ -12,7 +15,7 @@ const authLogin = {
         const remember = form.querySelector('#remember').checked;
         // console.log('Login attempt:', { email, password, remember });
 
-        const url = remember ? './data/login-ok.json' : './data/login-error.json'; 
+        const url = remember ? './data/login-ok.json' : './data/login-error.json';
         // Simulate an AJAX request to login
         utils.loadJSON(url, (payload) => {
             if (payload.id) {
@@ -38,6 +41,5 @@ const authLogin = {
         // })
         // .then(res => res.json())
         // .then(console.log);
-    }
-
+    },
 };
